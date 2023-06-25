@@ -44,6 +44,17 @@ def desenhar_linhas():
         for i in range(len(estrelas) - 1):
             pygame.draw.line(tela, (255, 255, 255), estrelas[i][0], estrelas[i+1][0], 2)
 
+def carregar_pontos_arquivo():
+    estrelas = []
+    if os.path.exists("pontos.txt"):
+        with open("pontos.txt", "r") as arquivo:
+            linhas = arquivo.readlines()
+            for linha in linhas:
+                posicao_x, posicao_y, nome = linha.strip().split(",")
+                posicao = (int(posicao_x), int(posicao_y))
+                estrelas.append((posicao, nome))
+    return estrelas
+
 
 
 def jogo():
@@ -55,8 +66,11 @@ def jogo():
     pygame.mixer.music.play(-1)
     fonte = pygame.font.Font(None, 20)
     texto1 = "Pressione F10 para Salvar os pontos"
-    texto_renderizado = fonte.render(texto1, True, branco)
-    posicao_texto = (260 // 2 - texto_renderizado.get_width() // 2, 15 // 2 - texto_renderizado.get_height() // 2)
+    texto2 = "Pressione F11 para Carregar os pontos"
+    texto_renderizado1 = fonte.render(texto1, True, branco)
+    texto_renderizado2 = fonte.render(texto2, True, branco)
+    posicao_texto1 = (260 // 2 - texto_renderizado1.get_width() // 2, 15 // 2 - texto_renderizado1.get_height() // 2)
+    posicao_texto2 = (275 // 2 - texto_renderizado2.get_width() // 2, 45 // 2 - texto_renderizado2.get_height() // 2)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -73,7 +87,8 @@ def jogo():
         tela.blit(fundo, (0,0))
         desenhar_linhas()
         desenhar_estrelas()
-        tela.blit(texto_renderizado, posicao_texto)
+        tela.blit(texto_renderizado1, posicao_texto1)
+        tela.blit(texto_renderizado2, posicao_texto2)
         pygame.display.flip()
         clock.tick(60)
 
