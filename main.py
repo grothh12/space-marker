@@ -45,16 +45,20 @@ def desenhar_linhas():
             pygame.draw.line(tela, (255, 255, 255), estrelas[i][0], estrelas[i+1][0], 2)
 
 def carregar_pontos_arquivo():
-    estrelas = []
-    if os.path.exists("pontos.txt"):
+    try:
         with open("pontos.txt", "r") as arquivo:
-            linhas = arquivo.readlines()
-            for linha in linhas:
-                posicao_x, posicao_y, nome = linha.strip().split(",")
-                posicao = (int(posicao_x), int(posicao_y))
-                estrelas.append((posicao, nome))
-    return estrelas
+            for linha in arquivo:
+                partes = linha.strip().split(",")
+                x = int(partes[0])
+                y = int(partes[1])
+                nome = partes[2]
+                estrelas.append(((x, y), nome))
+    except FileNotFoundError:
+        pass
 
+def excluir_marcacoes():
+    estrelas.clear()
+    
 
 
 def jogo():
@@ -67,10 +71,13 @@ def jogo():
     fonte = pygame.font.Font(None, 20)
     texto1 = "Pressione F10 para Salvar os pontos"
     texto2 = "Pressione F11 para Carregar os pontos"
+    texto3 = "Pressione F12 para Deletar os pontos"
     texto_renderizado1 = fonte.render(texto1, True, branco)
     texto_renderizado2 = fonte.render(texto2, True, branco)
+    texto_renderizado3 = fonte.render(texto3, True, branco)
     posicao_texto1 = (260 // 2 - texto_renderizado1.get_width() // 2, 15 // 2 - texto_renderizado1.get_height() // 2)
     posicao_texto2 = (275 // 2 - texto_renderizado2.get_width() // 2, 45 // 2 - texto_renderizado2.get_height() // 2)
+    posicao_texto3 = (265 // 2 - texto_renderizado3.get_width() // 2, 75 // 2 - texto_renderizado3.get_height() // 2)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -81,6 +88,10 @@ def jogo():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F10:
                     salvar_pontos_arquivo()
+                elif event.key == pygame.K_F11:
+                    carregar_pontos_arquivo()
+                elif event.key == pygame.K_F12:
+                    excluir_marcacoes()
         
 
 
@@ -89,6 +100,7 @@ def jogo():
         desenhar_estrelas()
         tela.blit(texto_renderizado1, posicao_texto1)
         tela.blit(texto_renderizado2, posicao_texto2)
+        tela.blit(texto_renderizado3, posicao_texto3)
         pygame.display.flip()
         clock.tick(60)
 
