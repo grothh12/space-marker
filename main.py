@@ -15,6 +15,8 @@ clock = pygame.time.Clock()
 space = pygame.image.load("space.png")
 pygame.display.set_icon(space)
 
+estrelas = []
+
 def abrir_caixa_de_pergunta():
     root = tk.Tk()
     root.withdraw()
