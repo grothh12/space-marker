@@ -17,11 +17,24 @@ pygame.display.set_icon(space)
 
 estrelas = []
 
-def abrir_caixa_de_pergunta():
+def abrir_caixa_de_pergunta(posicao):
     root = tk.Tk()
     root.withdraw()
     resposta = simpledialog.askstring("Pergunta", "Qual é o nome da estrela?")
-    print(resposta)
+    if resposta:
+        estrelas.append((posicao, resposta))
+
+def desenhar_estrelas():
+    for posicao, nome in estrelas:
+        pygame.draw.circle(tela, (255, 0, 0), posicao, 5)
+        fonte = pygame.font.Font(None, 20)
+        texto = fonte.render(nome, True, (255, 0, 0))
+        tela.blit(texto, (posicao[0] + 10, posicao[1] - 10))
+
+def desenhar_linhas():
+    if len(estrelas) >= 2:
+        for i in range(len(estrelas) - 1):
+            pygame.draw.line(tela, (255, 0, 0), estrelas[i][0], estrelas[i+1][0], 2)
 
 
 
@@ -36,11 +49,13 @@ def jogo():
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1: 
-                    abrir_caixa_de_pergunta()
+                    abrir_caixa_de_pergunta(event.pos)
         
 
 
         tela.blit(fundo, (0,0))
+        desenhar_linhas()
+        desenhar_estrelas()
         pygame.display.flip()
         clock.tick(60)
 
