@@ -92,6 +92,8 @@ def jogo():
                     carregar_pontos_arquivo()
                 elif event.key == pygame.K_F12:
                     excluir_marcacoes()
+                elif event.key== pygame.K_ESCAPE:
+                    running = False
         
 
 
