@@ -20,7 +20,7 @@ estrelas = []
 def abrir_caixa_de_pergunta(posicao):
     root = tk.Tk()
     root.withdraw()
-    resposta = simpledialog.askstring("Pergunta", "Qual é o nome da estrela? \nCaso não saiba clique em Cancel")
+    resposta = simpledialog.askstring("Pergunta", "Qual é o nome da estrela? \nCaso não saiba clique em OK ou em Cancel")
     if resposta is None or resposta.strip() == "":
         resposta = "desconhecido"
     resposta += f" ({posicao[0]}, {posicao[1]})"
@@ -51,7 +51,7 @@ def carregar_pontos_arquivo():
                 partes = linha.strip().split(",")
                 x = int(partes[0])
                 y = int(partes[1])
-                nome = partes[2]
+                nome = ",".join(partes[2:])
                 estrelas.append(((x, y), nome))
     except FileNotFoundError:
         pass
