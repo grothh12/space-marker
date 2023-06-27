@@ -104,7 +104,7 @@ def jogo():
         tela.blit(texto_renderizado1, posicao_texto1)
         tela.blit(texto_renderizado2, posicao_texto2)
         tela.blit(texto_renderizado3, posicao_texto3)
-        pygame.display.flip()
+        pygame.display.update()
         clock.tick(60)
 
 

@@ -9,7 +9,8 @@ cx_Freeze.setup(
             "packages": ["pygame"],
             "include_files": [
                 "fundospace.jpg",
-                "space.png"
+                "space.png",
+                "Space_Machine_Power.mp3"
             ]
         }
     } , executables = executables
