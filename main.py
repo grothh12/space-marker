@@ -3,6 +3,7 @@ import winsound
 import random
 import os
 import datetime
+import time
 from tkinter import simpledialog
 import tkinter as tk
 from tkinter import messagebox
