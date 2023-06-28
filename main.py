@@ -1,4 +1,5 @@
 import pygame
+import math
 import winsound
 import random
 import os
@@ -43,7 +44,15 @@ def salvar_pontos_arquivo():
 def desenhar_linhas():
     if len(estrelas) >= 2:
         for i in range(len(estrelas) - 1):
-            pygame.draw.line(tela, (255, 255, 255), estrelas[i][0], estrelas[i+1][0], 2)
+            ponto1, nome1 = estrelas[i]
+            ponto2, nome2 = estrelas[i+1]
+            pygame.draw.line(tela, (255, 255, 255), ponto1, ponto2, 2)
+            distancia = calcular_distancia(ponto1, ponto2)
+            texto_distancia = f"Distância: {distancia:.2f}"
+            fonte_distancia = pygame.font.Font(None, 20)
+            texto_renderizado_distancia = fonte_distancia.render(texto_distancia, True, (255, 255, 255))
+            posicao_texto_distancia = ((ponto1[0] + ponto2[0]) // 2, (ponto1[1] + ponto2[1]) // 2 - 10)
+            tela.blit(texto_renderizado_distancia, posicao_texto_distancia)
 
 def carregar_pontos_arquivo():
     try:
@@ -56,6 +65,12 @@ def carregar_pontos_arquivo():
                 estrelas.append(((x, y), nome))
     except FileNotFoundError:
         pass
+
+def calcular_distancia(ponto1, ponto2):
+    x1, y1 = ponto1
+    x2, y2 = ponto2
+    distancia = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+    return distancia
 
 def excluir_marcacoes():
     estrelas.clear()
